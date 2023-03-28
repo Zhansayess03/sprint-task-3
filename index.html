@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Currency Converter App in JavaScript</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 10px;
+  background: #675AFE;
+}
+/*::selection{
+  color: #fff;
+  background: #675AFE;
+}*/
+.wrapper{
+  width: 370px;
+  padding: 30px;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 7px 7px 20px rgba(0, 0, 0, 0.05);
+}
+.wrapper header{
+  font-size: 28px;
+  font-weight: 500;
+  text-align: center;
+}
+.wrapper form{
+  margin: 40px 0 20px 0;
+}
+form :where(input, select, button){
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+form p{
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+form input{
+  height: 50px;
+  font-size: 17px;
+  padding: 0 15px;
+  border: 1px solid #999;
+}
+form input:focus{
+  padding: 0 14px;
+  border: 2px solid #675AFE;
+}
+form select{
+  width: 20%;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+form button{
+  height: 52px;
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  background: #675AFE;
+  transition: 0.3s ease;
+}
+form button:hover{
+  background: #4534fe;
+}
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+    <header>Currency Converter</header>
+    <form>
+      <div for="amount" class="amount">
+        <p>Bведите сумму:</p>
+         <input type="number" id="amount" placeholder="Enter amount" min="0"  required>
+      </div>
+      <br>
+      <label for="from-currency"> <b> From currency:</b> </label>
+      <br>  
+      <select id="from-currency" required>
+        <option value="KZT">KZT</option>
+        <option value="USD">USD</option>
+        <option value="EURO">EUR</option>
+      </select>
+      <div class="currency"> <br>
+      <label for="to-currency" > <b> To Currency: </b> </label>
+      <div id="to-currency" required> 
+       USD (dollar): <span id="USD">
+                <span id="resultUsd"></span>
+        </span> <br>  
+        EUR (euro):<span id="EURO">
+                <span id="resultEuro"></span></span> <br> 
+        KZT (tenge):<span id="KZT">
+              <span id="resultKzt"></span></span> <br>  
+      </div>
+      </div> <br> <br>  
+      <button onclick="addConvert()">Convert</button>
+    </form>
+  </div>
+    <script>
+
+      function addConvert(){
+      const usdSellRate = 431;
+      const usdBuyRate = 429;
+      const euroSellRate  = 509;
+      const euroBuyRate = 507;
+
+      let resultUsd = document.getElementById('resultUsd');
+      let resultEuro = document.getElementById('resultEuro');
+      let resultKzt = document.getElementById('resultKzt');
+
+        const amount = parseFloat(document.querySelector('#amount').value);
+        const fromCurrency = document.getElementById('from-currency').value;
+        const toCurrency = document.getElementById('to-currency').value;
+
+         const toUsd = document.getElementById('USD').value;
+          const toEuro = document.getElementById('EURO').value;
+           const toKzt = document.getElementById('KZT').value;
+
+        let convertedUs;
+        let convertedEuro;
+        let convertedKzt;
+
+        if (fromCurrency === 'KZT') {
+
+            convertedUs = amount / usdSellRate ;
+            convertedEuro = amount / euroSellRate ;
+            convertedKzt= amount;
+
+          } 
+           if (fromCurrency === 'USD') {
+            convertedUs=amount;
+            convertedEuro = amount * usdBuyRate / euroSellRate;
+            convertedKzt = amount * usdBuyRate;
+            
+          } 
+          if(fromCurrency === 'EURO') {
+            convertedUs = amount * euroBuyRate / usdSellRate;
+            convertedKzt = amount * euroBuyRate;
+            convertedEuro=amount;
+          }
+      
+        
+        resultUsd.innerHTML = convertedUs.toFixed(2);
+        resultEuro.innerHTML = convertedEuro.toFixed(2);
+        resultKzt.innerHTML = convertedKzt.toFixed(2);
+
+        
+      }
+      
+    </script>
+  </body>
+</html>
